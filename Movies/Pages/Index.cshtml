@@ -4,10 +4,7 @@
     ViewData["Title"] = "Movies";
 }
 
-
-
-
-<div class="container">
+<div id="container">
     <div class="results">
         <h1>Movies</h1>
 
@@ -16,79 +13,82 @@
             <h2>No Results</h2>
         }
 
+        @foreach (Movie movie in Model.Movies)
+        {
 
-        <div>
-            <form method="post">
+            <div class="movie-entry">
+                <h2>
+                    @movie.Title
+                    <smaller>
+                        @(movie.MPAA_Rating == null ? "" : $"({@movie.MPAA_Rating})")
+                    </smaller>
+                </h2>
+                <i>@movie.Major_Genre</i>
+                <div class="ratings">
+                    @if (movie.IMDB_Rating != null)
+                    {
+                        <div>
+                            Rotten Tomatoes
+                            <h3>@movie.Rotten_Tomatoes_Rating</h3>
+                        </div>
+                    }
+                    @if (movie.Rotten_Tomatoes_Rating != null)
+                    {
+                        <div>
+                            IMDB
+                            <h3>@movie.IMDB_Rating</h3>
+                        </div>
+                    }
 
-                <h4>Search</h4>
-                <input type="text" name="search" value="@Model.search" />
-                <input type="submit" value="Search and Filter" />
+                </div>
+            </div>
+        }
 
-                <h2>MPAA Ratings</h2>
-                <label>
-                    <input type="checkbox" name="mpaa" value="G" checked="@Model.mpaa.Contains("G")" />
-                    Rated G
-                </label>
-                <label>
-                    <input type="checkbox" name="mpaa" value="PG" checked="@Model.mpaa.Contains("PG")" />
-                    Rated PG
-                </label>
-                <label>
-                    <input type="checkbox" name="mpaa" value="PG-13" checked="@Model.mpaa.Contains("PG-13")" />
-                    Rated PG-13
-                </label>
-                <label>
-                    <input type="checkbox" name="mpaa" value="R" checked="@Model.mpaa.Contains("R")" />
-                    Rated R
-                </label>
-                <label>
-                    <input type="checkbox" name="mpaa" value="NC-17" checked="@Model.mpaa.Contains("NC-17")" />
-                    Rated NC-17
-                </label>
-
-                <h4>Review Scores</h4>
-                <label>
-                    Minimum IMDB Rating
-                    <input type="number" min="0" max="10" step="0.1" name="minIMDB" />
-                </label>
-                <label>
-                    Maximum IMDB Rating
-                    <input type="number" min="0" max="10" step="0.1" name="maxIMDB" />
-                </label>
-            </form>
-        </div>
     </div>
+
+    <form method="post">
+
+        <h4>Search</h4>
+        <input type="text" name="search" value="@Model.search" />
+        <input type="submit" value="Search and Filter" />
+
+        <h2>MPAA Ratings</h2>
+
+        <div id="mpaa-ratings">
+            <label>
+                <input type="checkbox" name="mpaa" value="G" checked="@Model.mpaa.Contains("G")" />
+                Rated G
+            </label>
+            <label>
+                <input type="checkbox" name="mpaa" value="PG" checked="@Model.mpaa.Contains("PG")" />
+                Rated PG
+            </label>
+            <label>
+                <input type="checkbox" name="mpaa" value="PG-13" checked="@Model.mpaa.Contains("PG-13")" />
+                Rated PG-13
+            </label>
+            <label>
+                <input type="checkbox" name="mpaa" value="R" checked="@Model.mpaa.Contains("R")" />
+                Rated R
+            </label>
+            <label>
+                <input type="checkbox" name="mpaa" value="NC-17" checked="@Model.mpaa.Contains("NC-17")" />
+                Rated NC-17
+            </label>
+        </div>
+
+        <h4>Review Scores</h4>
+        <label>
+            Minimum IMDB Rating
+            <input type="number" min="0" max="10" step="0.1" name="minIMDB" />
+        </label>
+        <label>
+            Maximum IMDB Rating
+            <input type="number" min="0" max="10" step="0.1" name="maxIMDB" />
+        </label>
+    </form>
 </div>
+    
 
 
 
-@foreach (Movie movie in Model.Movies)
-{
-
-    <div class="movie-entry">
-        <h2>
-            @movie.Title
-            <smaller>
-                @(movie.MPAA_Rating == null ? "" : $"({@movie.MPAA_Rating})")
-            </smaller>
-        </h2>
-        <i>@movie.Major_Genre</i>
-        <div class="ratings">
-            @if (movie.IMDB_Rating != null)
-            {
-                <div>
-                    Rotten Tomatoes
-                    <h3>@movie.Rotten_Tomatoes_Rating</h3>
-                </div>
-            }
-            @if (movie.Rotten_Tomatoes_Rating != null)
-            {
-                <div>
-                    IMDB
-                    <h3>@movie.IMDB_Rating</h3>
-                </div>
-            }
-
-        </div>
-    </div>
-}
